@@ -1,32 +1,34 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter } from "react-router";
-import { RouterProvider } from "react-router/dom";
-import App from "./App";
-import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
-// import Cart from "./pages/Cart";
-// import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+import "./index.css";
+
 const router = createBrowserRouter([
   {
     element: <MainLayout />,
     children: [
       {
-        path: "/home",
+        index: true,
         lazy: () => import("./pages/Home"),
       },
       {
-        path: "/cart",
+        path: "cart",
         lazy: () => import("./pages/Cart"),
       },
-       {
-        path: "/product/:id",
+      {
+        path: "product/:id",
         lazy: () => import("./pages/ProductDetails"),
       },
     ],
   },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
 ]);
 
-const root = document.getElementById("root");
-
-ReactDOM.createRoot(root).render(<RouterProvider router={router} />);
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <RouterProvider router={router} />
+);

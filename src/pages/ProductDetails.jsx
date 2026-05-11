@@ -57,7 +57,7 @@ export const Component = () => {
             Add to Cart 🛒
            </Link>
           </button>
-          <Button size="small" component={Link} to="/home">
+          <Button size="small" component={Link} to="/">
             Back to home
           </Button>
 

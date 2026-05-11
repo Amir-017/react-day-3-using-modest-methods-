@@ -9,7 +9,7 @@ export default function MainLayout() {
         <h1 className="font-bold text-xl">My Shop</h1>
 
         <div className="flex gap-4">
-          <NavLink to="/home" className="hover:text-yellow-400" end>
+          <NavLink to="/" className="hover:text-yellow-400" end>
             Home
           </NavLink>
           <NavLink to="/cart" className="hover:text-yellow-400">
