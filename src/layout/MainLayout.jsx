@@ -15,6 +15,9 @@ export default function MainLayout() {
           <NavLink to="/cart" className="hover:text-yellow-400">
             Cart
           </NavLink>
+           <NavLink to="/login" className="hover:text-yellow-400">
+            Login
+          </NavLink>
         </div>
       </nav>
 

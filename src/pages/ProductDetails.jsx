@@ -14,9 +14,9 @@ export const Component = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center p-6">
       <div className="bg-white rounded-2xl shadow-xl max-w-4xl w-full grid md:grid-cols-2 overflow-hidden">
-        {/* Image Section */}
+        
         <div className="h-60 bg-white flex justify-center items-center p-4 relative">
-          {/* Badge */}
+       
           <span
             className={`absolute top-3 left-3 text-xs px-3 py-1 rounded-full text-white
     ${product.stock > 0 ? "bg-green-500" : "bg-red-500"}`}
@@ -31,7 +31,7 @@ export const Component = () => {
           />
         </div>
 
-        {/* Details Section */}
+     
         <div className="p-6 flex flex-col gap-4">
           <h1 className="text-2xl font-bold">{product.title}</h1>
 

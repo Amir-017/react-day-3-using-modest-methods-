@@ -19,7 +19,7 @@ export const Component = () => {
   console.log(filteredData);
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      {/* Search Input */}
+     
       <div className="mb-6 flex justify-center">
         <input
           type="text"
@@ -30,7 +30,6 @@ export const Component = () => {
         />
       </div>
 
-      {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredData.length > 0 ? (
           filteredData.map((item) => (

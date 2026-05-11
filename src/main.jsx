@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
 import NotFound from "./pages/NotFound";
 import "./index.css";
-
+import Login from "./pages/Login";
 const router = createBrowserRouter([
   {
     element: <MainLayout />,
@@ -20,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: "product/:id",
         lazy: () => import("./pages/ProductDetails"),
+      },
+       {
+        path: "login",
+        element: <Login />,
       },
     ],
   },
