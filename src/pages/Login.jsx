@@ -65,7 +65,9 @@ export default function Register() {
       alert(JSON.stringify(form, null, 2));
 
      
-      navigate("/");
+      navigate("/", {
+        state: { name: form.username },
+      });
     }
   };
 
