@@ -1,4 +1,4 @@
-import { Outlet, NavLink, useLocation } from "react-router-dom";
+import { Outlet, NavLink, useLocation, Link } from "react-router-dom";
 
 export default function MainLayout() {
   const { state } = useLocation();
@@ -7,7 +7,9 @@ export default function MainLayout() {
     <div className="min-h-screen flex flex-col">
       {/* Navbar */}
       <nav className="flex justify-between items-center p-4 bg-gray-900 text-white">
-        <h1 className="font-bold text-xl">My Shop</h1>
+        <Link className="font-bold text-xl"  to="/">
+          My Shop
+        </Link>
 
         <div className="flex gap-4">
           <NavLink to="/" className="hover:text-yellow-400" end>
