@@ -2,12 +2,12 @@ import { Outlet, NavLink, useLocation, Link } from "react-router-dom";
 
 export default function MainLayout() {
   const { state } = useLocation();
-  // console.log(state.name)
+  console.log(state.name);
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navbar */}
       <nav className="flex justify-between items-center p-4 bg-gray-900 text-white">
-        <Link className="font-bold text-xl"  to="/">
+        <Link className="font-bold text-xl" to="/">
           My Shop
         </Link>
 
@@ -20,27 +20,23 @@ export default function MainLayout() {
           </NavLink>
           {state?.name ? (
             <div className="flex items-center gap-4">
-                <h1  className="hover:text-yellow-400">
-            { `(${state?.name})` }
-          </h1>
-          <NavLink to="/login" className="text-red-400">
-            {state?.name && `Logout`}
-          </NavLink>
+              <h1 className="hover:text-yellow-400">{`${state?.name}`}</h1>
+              <NavLink to="/login" className="text-red-400">
+                {state?.name && `Logout`}
+              </NavLink>
             </div>
-         
-          ) :    <NavLink to="/login" className="hover:text-yellow-400">
-            { "Login"}
-          </NavLink> }
-          
+          ) : (
+            <NavLink to="/login" className="hover:text-yellow-400">
+              {"Login"}
+            </NavLink>
+          )}
         </div>
       </nav>
 
-      
       <main className="flex-1 p-6 bg-gray-100">
         <Outlet />
       </main>
 
-      
       <footer className="p-4 text-center bg-gray-900 text-white">
         © 2026 My Shop
       </footer>

@@ -1,76 +1,43 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import z, { email, refine } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function Register() {
   const navigate = useNavigate();
 
-  const [form, setForm] = useState({
-    email: "",
-    name: "",
-    username: "",
-    password: "",
-    confirmPassword: "",
+  const userSchema = z
+    .object({
+      email: z.string().email("invalid Email"),
+      name: z
+        .string()
+        .min(2, "name must be upper than 2 char")
+        .max(20, "num must be lower than 20"),
+      password: z
+        .string()
+        .min(6, "pass must be upper than 6")
+        .max(20, "pass must be lower than 20"),
+      confirmedPassword: z.string(),
+    })
+    .refine((data) => data.confirmedPassword === data.password, {
+      message: "password doesn't match",
+      path: ["confirmedPassword"],
+    });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(userSchema),
   });
 
-  const [errors, setErrors] = useState({});
-
-  const inputClass =
-    "w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-200/50";
-
- 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  const passwordRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@*%$#])[A-Za-z\d@*%$#]{8,}$/;
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (data) => {
+    console.log(data);
+    alert(JSON.stringify(data, null, 2));
+    navigate("/", { state: { name: data.name } });
   };
-
-  const validate = () => {
-    let newErrors = {};
-
-    if (!form.email || !emailRegex.test(form.email)) {
-      newErrors.email = "Invalid email";
-    }
-
-    if (!form.name) {
-      newErrors.name = "Name is required";
-    }
-
-    if (!form.username || form.username.includes(" ")) {
-      newErrors.username = "Username must not contain spaces";
-    }
-
-    if (!passwordRegex.test(form.password)) {
-      newErrors.password =
-        "Password must be 8+ chars, uppercase, lowercase, number, special char";
-    }
-
-    if (form.password !== form.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
-    }
-
-    return newErrors;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const validationErrors = validate();
-    setErrors(validationErrors);
-
-   
-    if (Object.keys(validationErrors).length === 0) {
-      alert(JSON.stringify(form, null, 2));
-
-     
-      navigate("/", {
-        state: { name: form.username },
-      });
-    }
-  };
-
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-4 py-10">
       <div className="pointer-events-none absolute -left-24 top-0 h-64 w-64 rounded-full bg-cyan-500/30 blur-3xl" />
@@ -96,7 +63,7 @@ export default function Register() {
         </div>
 
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(handleChange)}
           className="space-y-4 bg-white/95 p-6 sm:p-8"
         >
           <div>
@@ -114,27 +81,12 @@ export default function Register() {
             <input
               name="email"
               placeholder="you@example.com"
-              onChange={handleChange}
-              className={inputClass}
+              {...register("email")}
             />
-            {errors.email && (
-              <p className="mt-1 text-xs text-rose-600">{errors.email}</p>
-            )}
-          </div>
-
-          {/* Name */}
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-slate-700">
-              Full Name
-            </label>
-            <input
-              name="name"
-              placeholder="Enter your full name"
-              onChange={handleChange}
-              className={inputClass}
-            />
-            {errors.name && (
-              <p className="mt-1 text-xs text-rose-600">{errors.name}</p>
+            {errors?.email && (
+              <p className="mt-1 text-xs text-rose-600">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
@@ -146,11 +98,12 @@ export default function Register() {
             <input
               name="username"
               placeholder="Choose a unique username"
-              onChange={handleChange}
-              className={inputClass}
+              {...register("name")}
             />
-            {errors.username && (
-              <p className="mt-1 text-xs text-rose-600">{errors.username}</p>
+            {errors.name && (
+              <p className="mt-1 text-xs text-rose-600">
+                {errors.name.message}
+              </p>
             )}
           </div>
 
@@ -164,11 +117,12 @@ export default function Register() {
                 type="password"
                 name="password"
                 placeholder="Create password"
-                onChange={handleChange}
-                className={inputClass}
+                {...register("password")}
               />
               {errors.password && (
-                <p className="mt-1 text-xs text-rose-600">{errors.password}</p>
+                <p className="mt-1 text-xs text-rose-600">
+                  {errors.password.message}
+                </p>
               )}
             </div>
 
@@ -181,12 +135,11 @@ export default function Register() {
                 type="password"
                 name="confirmPassword"
                 placeholder="Repeat password"
-                onChange={handleChange}
-                className={inputClass}
+                {...register("confirmedPassword")}
               />
-              {errors.confirmPassword && (
+              {errors.confirmedPassword && (
                 <p className="mt-1 text-xs text-rose-600">
-                  {errors.confirmPassword}
+                  {errors.confirmedPassword.message}
                 </p>
               )}
             </div>
